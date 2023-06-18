@@ -1,0 +1,24 @@
+version: '3.8'
+
+services:
+  geth-miner:
+    hostname: geth-miner
+    env_file:
+      - .env
+    image: geth-client
+    build:
+      context: .
+      args:
+        - ACCOUNT_PASSWORD=${ACCOUNT_PASSWORD}
+    command:
+      --bootnodes="enode://109f5ac8f1c3304e0a6207c2da6e2c66d4305289968ed0542fe98d4ad647f8eb81a18cc7ca338673e6940ac6da36dd6dbc97467d13fbd2e936fd11c3545d19f8@3.108.56.35:30303?discport=0"
+      --nodiscover
+      --ipcdisable
+      --networkid=${NETWORK_ID}
+      --http
+      --http.api="eth,web3,net,admin,personal,miner"
+      --http.corsdomain="*"
+      --allow-insecure-unlock
+    ports:
+      - "8545:8545"
+    network_mode: "host"   
